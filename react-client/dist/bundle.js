@@ -14452,6 +14452,10 @@ var _reactRedux = __webpack_require__(114);
 
 var _redux = __webpack_require__(49);
 
+var _reduxThunk = __webpack_require__(144);
+
+var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
+
 var _Articles = __webpack_require__(141);
 
 var _Articles2 = _interopRequireDefault(_Articles);
@@ -14476,14 +14480,14 @@ function reducer() {
 
   switch (action.type) {
     case 'ARTICLES':
+      console.log("Within reducer", state.articles);
       return {
-        articles: state.articles
+        articles: action.payload
       };
     default:
       return state;
   }
 }
-
 // class App extends React.Component {
 // 	constructor(props) {
 // 		super(props);
@@ -14537,7 +14541,7 @@ function reducer() {
 // 	}
 // }
 
-var store = (0, _redux.createStore)(reducer);
+var store = (0, _redux.createStore)(reducer, (0, _redux.applyMiddleware)(_reduxThunk2.default));
 
 var App = function App() {
   return _react2.default.createElement(
@@ -37540,6 +37544,10 @@ var _jquery2 = _interopRequireDefault(_jquery);
 
 var _reactRedux = __webpack_require__(114);
 
+var _reduxThunk = __webpack_require__(144);
+
+var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -37563,12 +37571,25 @@ var Articles = function (_React$Component) {
 	_createClass(Articles, [{
 		key: 'componentDidMount',
 		value: function componentDidMount() {
+			console.log("Mounted!");
 			this.getArticles();
 		}
 	}, {
 		key: 'getArticles',
 		value: function getArticles() {
-			this.props.dispatch({ type: 'ARTICLES' });
+			console.log("inside get articles");
+			// this.props.dispatch({type: 'ARTICLES'})
+			return function (dispatch) {
+				console.log("Makes it inside dispatch");
+				_axios2.default.get('/articles').then(function (response) {
+					console.log("Getting articles from axios", response.data), dispatch({
+						type: 'ARTICLES',
+						payload: response.data
+					});
+				}).catch(function (error) {
+					console.log(error);
+				});
+			};
 		}
 	}, {
 		key: 'render',
@@ -37581,7 +37602,33 @@ var Articles = function (_React$Component) {
 					null,
 					'Articles'
 				),
-				console.log("Inside articles", this.props.articles)
+				console.log("Inside articles", this.props.articles),
+				this.props.articles.map(function (article, i) {
+					return _react2.default.createElement(
+						'div',
+						{ key: i },
+						_react2.default.createElement(
+							'h4',
+							null,
+							article.title
+						),
+						_react2.default.createElement(
+							'div',
+							null,
+							article.author
+						),
+						_react2.default.createElement(
+							'div',
+							null,
+							article.description
+						),
+						_react2.default.createElement(
+							'div',
+							null,
+							article.url
+						)
+					);
+				})
 			);
 		}
 	}]);
@@ -37596,15 +37643,6 @@ function mapStateToProps(state) {
 }
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps)(Articles);
-
-// {props.articles.map((article, i) => {
-// 				return <div key={i}>
-// 					<h4>{article.title}</h4>
-// 					<div>{article.author}</div>
-// 					<div>{article.description}</div>
-// 					<div>{article.url}</div>
-// 				</div>
-// 			})}
 
 /***/ }),
 /* 142 */
@@ -37732,6 +37770,36 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps)(NewArticle);
 // 	    		</label>
 // 				<button type="submit" onClick={this.addNew}>Submit</button>
 // 			</form>
+
+/***/ }),
+/* 143 */,
+/* 144 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+function createThunkMiddleware(extraArgument) {
+  return function (_ref) {
+    var dispatch = _ref.dispatch,
+        getState = _ref.getState;
+    return function (next) {
+      return function (action) {
+        if (typeof action === 'function') {
+          return action(dispatch, getState, extraArgument);
+        }
+
+        return next(action);
+      };
+    };
+  };
+}
+
+var thunk = createThunkMiddleware();
+thunk.withExtraArgument = createThunkMiddleware;
+
+exports['default'] = thunk;
 
 /***/ })
 /******/ ]);

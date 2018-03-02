@@ -4,7 +4,8 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import axios from 'axios';
 import $ from 'jquery';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
 
 import Articles from './components/Articles.jsx';
 // import Search from './components/Search.jsx';
@@ -19,14 +20,14 @@ const initialState = {
 function reducer(state = initialState, action) {
   switch(action.type) {
     case 'ARTICLES':
+    console.log("Within reducer", state.articles)
       return {
-        articles: state.articles
+        articles: action.payload
       };
     default:
       return state;
   }
 }
-
 // class App extends React.Component {
 // 	constructor(props) {
 // 		super(props);
@@ -80,7 +81,7 @@ function reducer(state = initialState, action) {
 // 	}
 // }
 
-const store = createStore(reducer);
+const store = createStore(reducer, applyMiddleware(thunk));
 
 const App = () => (
   <Provider store={store}>

@@ -10,8 +10,8 @@ app.use(parse.json())
 
 app.get('/articles', (req, res) => {
 	db.getAllArticles((data) => {
-		console.log("Getting all articles", data);
-		res.send(data);
+		console.log("Getting all articles in the server", data.rows);
+		res.send(data.rows);
 	})
 })
 

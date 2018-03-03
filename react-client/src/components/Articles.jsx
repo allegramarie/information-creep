@@ -4,34 +4,14 @@ import axios from 'axios';
 import $ from 'jquery';
 import { connect } from 'react-redux';
 import thunk from 'redux-thunk';
+import { getArticles } from '../actions/getArticles.js';
 
 class Articles extends React.Component {
 	constructor(props){
-		super(props)
-		this.getArticles = this.getArticles.bind(this);
+		super(props);
 	}
 	componentDidMount(){
-		console.log("Mounted!")
-		this.getArticles();
-	}
-
-	getArticles(){
-		console.log("inside get articles")
-		// this.props.dispatch({type: 'ARTICLES'})
-		return function(dispatch){
-			console.log("Makes it inside dispatch")
-			axios.get('/articles')
-			.then((response) => {
-				console.log("Getting articles from axios", response.data),
-				dispatch({
-					type: 'ARTICLES',
-					payload: response.data,
-				})
-			})
-			.catch((error) => {
-				console.log(error)
-			})
-		}
+		this.props.dispatch(getArticles());
 	}
 	
 	render(){

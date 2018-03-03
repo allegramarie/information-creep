@@ -14460,6 +14460,10 @@ var _Articles = __webpack_require__(141);
 
 var _Articles2 = _interopRequireDefault(_Articles);
 
+var _Search = __webpack_require__(138);
+
+var _Search2 = _interopRequireDefault(_Search);
+
 var _NewArticle = __webpack_require__(142);
 
 var _NewArticle2 = _interopRequireDefault(_NewArticle);
@@ -14469,7 +14473,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var initialState = {
   articles: []
 };
-// import Search from './components/Search.jsx';
 // import UserProfile from './components/UserProfile.jsx';
 // import UserArticles from './components/UserArticles.jsx';
 
@@ -14480,7 +14483,10 @@ function reducer() {
 
   switch (action.type) {
     case 'ARTICLES':
-      console.log("Within reducer", state.articles);
+      return {
+        articles: action.payload
+      };
+    case 'NEW_ARTICLE':
       return {
         articles: action.payload
       };
@@ -14488,6 +14494,57 @@ function reducer() {
       return state;
   }
 }
+
+var store = (0, _redux.createStore)(reducer, (0, _redux.applyMiddleware)(_reduxThunk2.default));
+
+var App = function App() {
+  return _react2.default.createElement(
+    _reactRedux.Provider,
+    { store: store },
+    _react2.default.createElement(
+      _reactRouterDom.BrowserRouter,
+      null,
+      _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(
+          'h2',
+          null,
+          'Info Creep'
+        ),
+        _react2.default.createElement(
+          'ul',
+          null,
+          _react2.default.createElement(
+            'li',
+            null,
+            _react2.default.createElement(
+              _reactRouterDom.Link,
+              { to: '/' },
+              'Articles'
+            )
+          ),
+          _react2.default.createElement(
+            'li',
+            null,
+            _react2.default.createElement(
+              _reactRouterDom.Link,
+              { to: '/addnew' },
+              'Add New Article'
+            )
+          )
+        ),
+        _react2.default.createElement(_Search2.default, null),
+        _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _Articles2.default }),
+        _react2.default.createElement(_reactRouterDom.Route, { path: '/addnew', component: _NewArticle2.default })
+      )
+    )
+  );
+};
+
+_reactDom2.default.render(_react2.default.createElement(App, null), document.getElementById('app'));
+
+// <Search onSearch={this.search.bind(this)}/>
 // class App extends React.Component {
 // 	constructor(props) {
 // 		super(props);
@@ -14540,56 +14597,6 @@ function reducer() {
 // 		)
 // 	}
 // }
-
-var store = (0, _redux.createStore)(reducer, (0, _redux.applyMiddleware)(_reduxThunk2.default));
-
-var App = function App() {
-  return _react2.default.createElement(
-    _reactRedux.Provider,
-    { store: store },
-    _react2.default.createElement(
-      _reactRouterDom.BrowserRouter,
-      null,
-      _react2.default.createElement(
-        'div',
-        null,
-        _react2.default.createElement(
-          'h2',
-          null,
-          'Info Creep'
-        ),
-        _react2.default.createElement(
-          'ul',
-          null,
-          _react2.default.createElement(
-            'li',
-            null,
-            _react2.default.createElement(
-              _reactRouterDom.Link,
-              { to: '/' },
-              'Articles'
-            )
-          ),
-          _react2.default.createElement(
-            'li',
-            null,
-            _react2.default.createElement(
-              _reactRouterDom.Link,
-              { to: '/addnew' },
-              'Add New Article'
-            )
-          )
-        ),
-        _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _Articles2.default }),
-        _react2.default.createElement(_reactRouterDom.Route, { path: '/addnew', component: _NewArticle2.default })
-      )
-    )
-  );
-};
-
-_reactDom2.default.render(_react2.default.createElement(App, null), document.getElementById('app'));
-
-// <Search onSearch={this.search.bind(this)}/>
 
 /***/ }),
 /* 58 */
@@ -37511,7 +37518,102 @@ function verifySubselectors(mapStateToProps, mapDispatchToProps, mergeProps, dis
 }
 
 /***/ }),
-/* 138 */,
+/* 138 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = __webpack_require__(16);
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _axios = __webpack_require__(40);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+var _jquery = __webpack_require__(46);
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Search = function (_React$Component) {
+	_inherits(Search, _React$Component);
+
+	function Search(props) {
+		_classCallCheck(this, Search);
+
+		var _this = _possibleConstructorReturn(this, (Search.__proto__ || Object.getPrototypeOf(Search)).call(this, props));
+
+		_this.state = {
+			term: ''
+		};
+		_this.onChange = _this.onChange.bind(_this);
+		_this.search = _this.search.bind(_this);
+		return _this;
+	}
+
+	_createClass(Search, [{
+		key: 'onChange',
+		value: function onChange(e) {
+			e.preventDefault();
+			this.setState({
+				term: e.target.value
+			});
+		}
+	}, {
+		key: 'search',
+		value: function search(e) {
+			e.preventDefault();
+			this.props.onSearch(this.state.term);
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			var _this2 = this;
+
+			return _react2.default.createElement(
+				'div',
+				null,
+				_react2.default.createElement(
+					'form',
+					null,
+					_react2.default.createElement('input', { type: 'text', placeholder: 'Search', value: this.state.term, onChange: function onChange(e) {
+							_this2.onChange(e);
+						} }),
+					_react2.default.createElement(
+						'button',
+						{ type: 'button', onClick: this.search },
+						'Search'
+					)
+				)
+			);
+		}
+	}]);
+
+	return Search;
+}(_react2.default.Component);
+
+exports.default = Search;
+
+/***/ }),
 /* 139 */,
 /* 140 */,
 /* 141 */
@@ -37548,6 +37650,8 @@ var _reduxThunk = __webpack_require__(144);
 
 var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 
+var _getArticles = __webpack_require__(143);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -37562,34 +37666,13 @@ var Articles = function (_React$Component) {
 	function Articles(props) {
 		_classCallCheck(this, Articles);
 
-		var _this = _possibleConstructorReturn(this, (Articles.__proto__ || Object.getPrototypeOf(Articles)).call(this, props));
-
-		_this.getArticles = _this.getArticles.bind(_this);
-		return _this;
+		return _possibleConstructorReturn(this, (Articles.__proto__ || Object.getPrototypeOf(Articles)).call(this, props));
 	}
 
 	_createClass(Articles, [{
 		key: 'componentDidMount',
 		value: function componentDidMount() {
-			console.log("Mounted!");
-			this.getArticles();
-		}
-	}, {
-		key: 'getArticles',
-		value: function getArticles() {
-			console.log("inside get articles");
-			// this.props.dispatch({type: 'ARTICLES'})
-			return function (dispatch) {
-				console.log("Makes it inside dispatch");
-				_axios2.default.get('/articles').then(function (response) {
-					console.log("Getting articles from axios", response.data), dispatch({
-						type: 'ARTICLES',
-						payload: response.data
-					});
-				}).catch(function (error) {
-					console.log(error);
-				});
-			};
+			this.props.dispatch((0, _getArticles.getArticles)());
 		}
 	}, {
 		key: 'render',
@@ -37677,6 +37760,8 @@ var _reactRedux = __webpack_require__(114);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -37689,15 +37774,15 @@ var NewArticle = function (_React$Component) {
 	function NewArticle(props) {
 		_classCallCheck(this, NewArticle);
 
-		// 	this.state = {
-		// 		title: '',
-		// 		author: '',
-		// 		description: '',
-		// 		url: '',
-		// 		private: false
-		// 	}
 		var _this = _possibleConstructorReturn(this, (NewArticle.__proto__ || Object.getPrototypeOf(NewArticle)).call(this, props));
 
+		_this.state = {
+			title: '',
+			author: '',
+			description: '',
+			url: '',
+			private: false
+		};
 		_this.addNew = _this.addNew.bind(_this);
 		return _this;
 	}
@@ -37705,38 +37790,42 @@ var NewArticle = function (_React$Component) {
 	_createClass(NewArticle, [{
 		key: 'addNew',
 		value: function addNew(event) {
-			// event.preventDefault();
-			// console.log(this.state.title, this.state.url, this.state.author, this.state.description)
-			// axios.post('/newarticle', {
-			// 	title: this.state.title, 
-			// 	url: this.state.url, 
-			// 	author: this.state.author, 
-			// 	description: this.state.description,
-			// 	private: this.state.private
-			// }).then((response) => {
-			// 	this.setState({
-			// 		title: '',
-			// 		author: '',
-			// 		description: '',
-			// 		url: '',
-			// 		private: false
-			// 	})
-			// })
-			// console.log("Article saved!")
-			// .catch((error) => {
-			// 	console.log(error);
-			// 	this.setState({
-			// 		title: '',
-			// 		author: '',
-			// 		description: '',
-			// 		url: '', 
-			// 		private: false
-			// 	})
-			// })
+			var _this2 = this;
+
+			event.preventDefault();
+			console.log(this.state.title, this.state.url, this.state.author, this.state.description);
+			_axios2.default.post('/newarticle', {
+				title: this.state.title,
+				url: this.state.url,
+				author: this.state.author,
+				description: this.state.description,
+				private: this.state.private
+			}).then(function (response) {
+				_this2.setState({
+					title: '',
+					author: '',
+					description: '',
+					url: '',
+					private: false
+				});
+			});
+			console.log("Article saved!").catch(function (error) {
+				console.log(error);
+				_this2.setState({
+					title: '',
+					author: '',
+					description: '',
+					url: '',
+					private: false
+				});
+			});
 		}
 	}, {
 		key: 'render',
 		value: function render() {
+			var _this3 = this,
+			    _React$createElement;
+
 			return _react2.default.createElement(
 				'div',
 				null,
@@ -37744,6 +37833,35 @@ var NewArticle = function (_React$Component) {
 					'h3',
 					null,
 					'Add a new Article'
+				),
+				_react2.default.createElement(
+					'form',
+					null,
+					_react2.default.createElement('input', { type: 'text', placeholder: 'Title', value: this.state.title, onChange: function onChange(event) {
+							return _this3.setState({ title: event.target.value });
+						} }),
+					_react2.default.createElement('input', { type: 'text', placeholder: 'Author', value: this.state.author, onChange: function onChange(event) {
+							return _this3.setState({ author: event.target.value });
+						} }),
+					_react2.default.createElement('input', { type: 'text', placeholder: 'Description', value: this.state.description, onChange: function onChange(event) {
+							return _this3.setState({ description: event.target.value });
+						} }),
+					_react2.default.createElement('input', { type: 'text', placeholder: 'Url', value: this.state.url, onChange: function onChange(event) {
+							return _this3.setState({ url: event.target.value });
+						} }),
+					_react2.default.createElement(
+						'label',
+						null,
+						'This article is private',
+						_react2.default.createElement('input', (_React$createElement = { type: 'checkbox', value: 'private' }, _defineProperty(_React$createElement, 'value', this.state.private), _defineProperty(_React$createElement, 'onChange', function onChange(event) {
+							return _this3.setState({ private: true });
+						}), _React$createElement))
+					),
+					_react2.default.createElement(
+						'button',
+						{ type: 'submit', onClick: this.addNew },
+						'Submit'
+					)
 				)
 			);
 		}
@@ -37760,19 +37878,39 @@ function mapStateToProps(state) {
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps)(NewArticle);
 
-// <form>
-// 				<input type="text" placeholder="Title" value={this.props.title} onChange={(event) => this.setState({title: event.target.value})}></input>
-// 				<input type="text" placeholder="Author" value={this.props.author} onChange={(event) => this.setState({author: event.target.value})}></input>
-// 				<input type="text" placeholder="Description" value={this.props.description} onChange={(event) => this.setState({description: event.target.value})}></input>
-// 				<input type="text" placeholder="Url" value={this.props.url} onChange={(event) => this.setState({url: event.target.value})}></input>
-// 				<label>This article is private
-// 				<input type="checkbox" value="private" value={this.props.private} onChange={(event) => this.setState({private: true})}/>
-// 	    		</label>
-// 				<button type="submit" onClick={this.addNew}>Submit</button>
-// 			</form>
+/***/ }),
+/* 143 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.getArticles = getArticles;
+
+var _axios = __webpack_require__(40);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function getArticles() {
+	// this.props.dispatch({type: 'ARTICLES'})
+	return function (dispatch) {
+		_axios2.default.get('/articles').then(function (response) {
+			dispatch({
+				type: 'ARTICLES',
+				payload: response.data
+			});
+		}).catch(function (error) {
+			console.log(error);
+		});
+	};
+}
 
 /***/ }),
-/* 143 */,
 /* 144 */
 /***/ (function(module, exports, __webpack_require__) {
 

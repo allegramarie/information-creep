@@ -2,7 +2,7 @@ var format = require('pg-format');
 const { Pool } = require('pg')
 
 const pool = new Pool({
-	host: process.env.DATABASE_URL,
+	host: process.env.DATABASE_URL || 'postgres://eiapvpytajwyjj:2d7dfaa0408722e5368a3d09166e738ab820b1b9831456e787d637010f2dfea0@ec2-54-225-249-161.compute-1.amazonaws.com:5432/de1agds7d8gohe',
   user: '',
   password: '',
   database: 'articlesDB'

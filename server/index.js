@@ -10,16 +10,20 @@ app.use(parse.json())
 
 app.get('/articles', (req, res) => {
 	db.getAllArticles((data) => {
-		console.log("Getting all articles in the server", data.rows);
 		res.send(data.rows);
 	})
 })
 
 app.post('/newarticle', (req, res) => {
-	console.log("Within server post", req.body)
 	db.addArticle(req.body, (data) => {
 		console.log(data);
 		res.send(data);
+	})
+})
+
+app.post('/search', (req, res) => {
+	db.searchArticles(req.body.term, (data) => {
+		res.send(data.rows);
 	})
 })
 

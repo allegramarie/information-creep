@@ -30,6 +30,16 @@ const addArticle = function(input, callback) {
 	})
 }
 
+const searchArticles = function(input, callback) {
+	pool.query(`SELECT * from articles WHERE description like '%${input}%' OR title like '%${input}%';`, (err, results) => {
+		if(err){
+			console.log(err)
+		} else {
+			callback(results)
+		}
+	})
+}
+
 
 pool.connect((err) => {
 		  if (err) {
@@ -41,5 +51,6 @@ pool.connect((err) => {
 
 module.exports = {
 	getAllArticles,
-	addArticle
+	addArticle,
+	searchArticles
 }

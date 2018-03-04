@@ -34,8 +34,8 @@ class NewArticle extends React.Component {
 				url: '',
 				private: false
 			})
+			console.log("Article saved!")
 		})
-		console.log("Article saved!")
 		.catch((error) => {
 			console.log(error);
 			this.setState({
@@ -51,16 +51,26 @@ class NewArticle extends React.Component {
 	render(){
 		return (
 			<div>
-			<h3>Add a new Article</h3>
-			<form>
- 				<input type="text" placeholder="Title" value={this.state.title} onChange={(event) => this.setState({title: event.target.value})}></input>
- 				<input type="text" placeholder="Author" value={this.state.author} onChange={(event) => this.setState({author: event.target.value})}></input>
- 				<input type="text" placeholder="Description" value={this.state.description} onChange={(event) => this.setState({description: event.target.value})}></input>
- 				<input type="text" placeholder="Url" value={this.state.url} onChange={(event) => this.setState({url: event.target.value})}></input>
- 				<label>This article is private
- 				<input type="checkbox" value="private" value={this.state.private} onChange={(event) => this.setState({private: true})}/>
- 	    		</label>
-				<button type="submit" onClick={this.addNew}>Submit</button>
+			<h3>Add a New Article:</h3>
+			<form className="col-4">
+				<div >
+					<input className="form" type="text" placeholder="Title" value={this.state.title} onChange={(event) => this.setState({title: event.target.value})}></input>
+				</div>
+				<div>
+					<input className="form" type="text" placeholder="Author" value={this.state.author} onChange={(event) => this.setState({author: event.target.value})}></input>
+				</div>
+				<div>
+					<textarea className="form" type="text" placeholder="Description" value={this.state.description} onChange={(event) => this.setState({description: event.target.value})}></textarea>
+				</div>
+				<div>
+					<input className="form" type="text" placeholder="Url" value={this.state.url} onChange={(event) => this.setState({url: event.target.value})}></input>
+				</div>
+				<div>
+					<label>This article is private
+	 				<input className="form" type="checkbox" value="private" value={this.state.private} onChange={(event) => this.setState({private: true})}/>
+	 	    		</label>
+				</div>
+				<button type="submit" className="btn btn-primary" onClick={this.addNew}>Submit</button>
  			</form>
 			</div>
 			)

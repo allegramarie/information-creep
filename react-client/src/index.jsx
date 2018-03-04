@@ -23,10 +23,10 @@ function reducer(state = initialState, action) {
       return {
         articles: action.payload
       };
-     case 'NEW_ARTICLE':
-     return {
-     	articles: action.payload
-     };
+      case 'SEARCH': 
+      return {
+      	articles: action.payload
+      }
     default:
       return state;
   }
@@ -39,12 +39,12 @@ const App = () => (
   <Router>
     <div>
     <h2>Info Creep</h2>
-      <ul>
+      <ul className="nav">
         <li>
-          <Link to="/">Articles</Link>
+          <Link className="btn btn-primary" role="button" to="/">Articles</Link>
         </li>
         <li>
-          <Link to="/addnew">Add New Article</Link>
+          <Link className="btn btn-primary" role="button" to="/addnew">Add New Article</Link>
         </li>
       </ul>
       <Search />	

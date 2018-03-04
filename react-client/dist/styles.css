@@ -1,0 +1,44 @@
+.nav {
+	list-style: none;
+}
+
+.nav li {
+	float: left;
+	/*padding: 3px;*/
+	/*background-color: lightgray;*/
+	margin: 5px;
+	/*border-radius: 5px;*/
+}
+
+.nav li a {
+	text-decoration: none;
+}
+
+.nav li a:hover {
+	background-color: #286090;
+}
+
+.nav li a:visited {
+	background-color: #286090;
+}
+
+.form {
+	margin: 5px;
+	width: 50%;
+}
+
+button {
+	margin: 3px;
+}
+
+.article {
+	margin: 5px;
+	background-color:whitesmoke;
+	border-radius: 5px;
+	padding: 15px;
+    width: 50%;
+}
+
+.search {
+	width: 40%;
+}

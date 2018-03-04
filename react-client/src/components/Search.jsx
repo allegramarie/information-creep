@@ -2,6 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import $ from 'jquery';
+import { connect } from 'react-redux';
+import thunk from 'redux-thunk';
+import { onSearch } from '../actions/search.js';
 
 class Search extends React.Component {
 	constructor(props){
@@ -22,19 +25,28 @@ class Search extends React.Component {
 
 	search(e){
 		e.preventDefault();
-		this.props.onSearch(this.state.term)
+		this.props.dispatch(onSearch(this.state.term))
+		this.setState({
+			term: ''
+		})
 	}
 
 	render(){
 		return(
-			<div>
+			<div className="col-4">
 				<form>
-					<input type="text" placeholder="Search" value={this.state.term} onChange={(e) => {this.onChange(e)}}></input>
-					<button type="button" onClick={this.search}>Search</button>
+					<input className="search" type="text" placeholder="Search" value={this.state.term} onChange={(e) => {this.onChange(e)}}></input>
+					<button type="button" className="btn btn-primary" onClick={this.search}>Search</button>
 				</form>
 			</div>
 	)
 	}
 }
 
-export default Search;
+function mapStateToProps(state) {
+  return {
+    articles: state.articles
+  };
+}
+
+export default connect(mapStateToProps)(Search);

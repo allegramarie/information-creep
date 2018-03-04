@@ -16,11 +16,11 @@ class Articles extends React.Component {
 	
 	render(){
 		return (
-			<div>
+			<div className="col-4">
 			<h3>Articles</h3>
 			{console.log("Inside articles", this.props.articles)}
 			{this.props.articles.map((article, i) => {
-				return <div key={i}>
+				return <div className="article" key={i}>
 					<h4>{article.title}</h4>
 					<div>{article.author}</div>
 					<div>{article.description}</div>

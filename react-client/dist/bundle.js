@@ -14486,7 +14486,7 @@ function reducer() {
       return {
         articles: action.payload
       };
-    case 'NEW_ARTICLE':
+    case 'SEARCH':
       return {
         articles: action.payload
       };
@@ -14514,13 +14514,13 @@ var App = function App() {
         ),
         _react2.default.createElement(
           'ul',
-          null,
+          { className: 'nav' },
           _react2.default.createElement(
             'li',
             null,
             _react2.default.createElement(
               _reactRouterDom.Link,
-              { to: '/' },
+              { className: 'btn btn-primary', role: 'button', to: '/' },
               'Articles'
             )
           ),
@@ -14529,7 +14529,7 @@ var App = function App() {
             null,
             _react2.default.createElement(
               _reactRouterDom.Link,
-              { to: '/addnew' },
+              { className: 'btn btn-primary', role: 'button', to: '/addnew' },
               'Add New Article'
             )
           )
@@ -37546,6 +37546,14 @@ var _jquery = __webpack_require__(46);
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
+var _reactRedux = __webpack_require__(114);
+
+var _reduxThunk = __webpack_require__(144);
+
+var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
+
+var _search = __webpack_require__(146);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -37582,7 +37590,10 @@ var Search = function (_React$Component) {
 		key: 'search',
 		value: function search(e) {
 			e.preventDefault();
-			this.props.onSearch(this.state.term);
+			this.props.dispatch((0, _search.onSearch)(this.state.term));
+			this.setState({
+				term: ''
+			});
 		}
 	}, {
 		key: 'render',
@@ -37591,16 +37602,16 @@ var Search = function (_React$Component) {
 
 			return _react2.default.createElement(
 				'div',
-				null,
+				{ className: 'col-4' },
 				_react2.default.createElement(
 					'form',
 					null,
-					_react2.default.createElement('input', { type: 'text', placeholder: 'Search', value: this.state.term, onChange: function onChange(e) {
+					_react2.default.createElement('input', { className: 'search', type: 'text', placeholder: 'Search', value: this.state.term, onChange: function onChange(e) {
 							_this2.onChange(e);
 						} }),
 					_react2.default.createElement(
 						'button',
-						{ type: 'button', onClick: this.search },
+						{ type: 'button', className: 'btn btn-primary', onClick: this.search },
 						'Search'
 					)
 				)
@@ -37611,7 +37622,13 @@ var Search = function (_React$Component) {
 	return Search;
 }(_react2.default.Component);
 
-exports.default = Search;
+function mapStateToProps(state) {
+	return {
+		articles: state.articles
+	};
+}
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps)(Search);
 
 /***/ }),
 /* 139 */,
@@ -37679,7 +37696,7 @@ var Articles = function (_React$Component) {
 		value: function render() {
 			return _react2.default.createElement(
 				'div',
-				null,
+				{ className: 'col-4' },
 				_react2.default.createElement(
 					'h3',
 					null,
@@ -37689,7 +37706,7 @@ var Articles = function (_React$Component) {
 				this.props.articles.map(function (article, i) {
 					return _react2.default.createElement(
 						'div',
-						{ key: i },
+						{ className: 'article', key: i },
 						_react2.default.createElement(
 							'h4',
 							null,
@@ -37808,8 +37825,8 @@ var NewArticle = function (_React$Component) {
 					url: '',
 					private: false
 				});
-			});
-			console.log("Article saved!").catch(function (error) {
+				console.log("Article saved!");
+			}).catch(function (error) {
 				console.log(error);
 				_this2.setState({
 					title: '',
@@ -37832,34 +37849,54 @@ var NewArticle = function (_React$Component) {
 				_react2.default.createElement(
 					'h3',
 					null,
-					'Add a new Article'
+					'Add a New Article:'
 				),
 				_react2.default.createElement(
 					'form',
-					null,
-					_react2.default.createElement('input', { type: 'text', placeholder: 'Title', value: this.state.title, onChange: function onChange(event) {
-							return _this3.setState({ title: event.target.value });
-						} }),
-					_react2.default.createElement('input', { type: 'text', placeholder: 'Author', value: this.state.author, onChange: function onChange(event) {
-							return _this3.setState({ author: event.target.value });
-						} }),
-					_react2.default.createElement('input', { type: 'text', placeholder: 'Description', value: this.state.description, onChange: function onChange(event) {
-							return _this3.setState({ description: event.target.value });
-						} }),
-					_react2.default.createElement('input', { type: 'text', placeholder: 'Url', value: this.state.url, onChange: function onChange(event) {
-							return _this3.setState({ url: event.target.value });
-						} }),
+					{ className: 'col-4' },
 					_react2.default.createElement(
-						'label',
+						'div',
 						null,
-						'This article is private',
-						_react2.default.createElement('input', (_React$createElement = { type: 'checkbox', value: 'private' }, _defineProperty(_React$createElement, 'value', this.state.private), _defineProperty(_React$createElement, 'onChange', function onChange(event) {
-							return _this3.setState({ private: true });
-						}), _React$createElement))
+						_react2.default.createElement('input', { className: 'form', type: 'text', placeholder: 'Title', value: this.state.title, onChange: function onChange(event) {
+								return _this3.setState({ title: event.target.value });
+							} })
+					),
+					_react2.default.createElement(
+						'div',
+						null,
+						_react2.default.createElement('input', { className: 'form', type: 'text', placeholder: 'Author', value: this.state.author, onChange: function onChange(event) {
+								return _this3.setState({ author: event.target.value });
+							} })
+					),
+					_react2.default.createElement(
+						'div',
+						null,
+						_react2.default.createElement('textarea', { className: 'form', type: 'text', placeholder: 'Description', value: this.state.description, onChange: function onChange(event) {
+								return _this3.setState({ description: event.target.value });
+							} })
+					),
+					_react2.default.createElement(
+						'div',
+						null,
+						_react2.default.createElement('input', { className: 'form', type: 'text', placeholder: 'Url', value: this.state.url, onChange: function onChange(event) {
+								return _this3.setState({ url: event.target.value });
+							} })
+					),
+					_react2.default.createElement(
+						'div',
+						null,
+						_react2.default.createElement(
+							'label',
+							null,
+							'This article is private',
+							_react2.default.createElement('input', (_React$createElement = { className: 'form', type: 'checkbox', value: 'private' }, _defineProperty(_React$createElement, 'value', this.state.private), _defineProperty(_React$createElement, 'onChange', function onChange(event) {
+								return _this3.setState({ private: true });
+							}), _React$createElement))
+						)
 					),
 					_react2.default.createElement(
 						'button',
-						{ type: 'submit', onClick: this.addNew },
+						{ type: 'submit', className: 'btn btn-primary', onClick: this.addNew },
 						'Submit'
 					)
 				)
@@ -37938,6 +37975,41 @@ var thunk = createThunkMiddleware();
 thunk.withExtraArgument = createThunkMiddleware;
 
 exports['default'] = thunk;
+
+/***/ }),
+/* 145 */,
+/* 146 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.onSearch = onSearch;
+
+var _axios = __webpack_require__(40);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function onSearch(term) {
+	console.log(term + ' was searched!');
+	return function (dispatch) {
+		_axios2.default.post('/search', {
+			term: term
+		}).then(function (response) {
+			dispatch({
+				type: 'SEARCH',
+				payload: response.data
+			});
+		}).catch(function (error) {
+			console.log(error);
+		});
+	};
+}
 
 /***/ })
 /******/ ]);

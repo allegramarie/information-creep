@@ -27,20 +27,6 @@ app.post('/search', (req, res) => {
 	})
 })
 
-app.get('/db', function(request, response){
-	pool.connect(process.env.DATABASE_URL, function(err, client, done) {
-		client.query('SELECT * FROM articles', function(err, result){
-			if (err) {
-		    console.error('connection error', err.stack)
-		  } else {
-		    console.log('connected to the db')
-		    response.render('pages/db', {results: result.rows} );
-		  }
-		})
-	})
-})
-
-
 let port = process.env.PORT || 3000;
 
 app.listen(port, function(){

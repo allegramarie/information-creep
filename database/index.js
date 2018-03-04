@@ -2,10 +2,10 @@ var format = require('pg-format');
 const { Pool } = require('pg')
 
 const pool = new Pool({
-	host: process.env.DATABASE_URL,
+	host: process.env.DATABASE_URL || ec2-54-225-249-161.compute-1.amazonaws.com,
   user: '',
   password: '',
-  database: 'articlesDB'
+  database: 'de1agds7d8gohe'
 })
 
 const getAllArticles = function(callback) {

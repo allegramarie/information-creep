@@ -11,7 +11,7 @@ const pool = new Pool({
 const getAllArticles = function(callback) {
 	pool.query('SELECT * from articles', (err, results) => {
 	  if (err) {
-	    return console.error('Error executing query', err.stack)
+	    console.error('Error executing query', err.stack)
 	  } else {
 	  	callback(results)
 	  }
@@ -23,7 +23,7 @@ const addArticle = function(input, callback) {
 	console.log("Within new article query", values)
 	pool.query(`insert into articles (title, author, url, description, private) values ('${input.title}', '${input.author}', '${input.url}', '${input.description}', '${input.private}');`, (err, results) => {
 		if(err){
-			console.log(err)
+			console.error('Error executing query', err.stack)
 		} else {
 			callback(results)
 		}
@@ -33,7 +33,7 @@ const addArticle = function(input, callback) {
 const searchArticles = function(input, callback) {
 	pool.query(`SELECT * from articles WHERE description like '%${input}%' OR title like '%${input}%';`, (err, results) => {
 		if(err){
-			console.log(err)
+			console.error('Error executing query', err.stack)
 		} else {
 			callback(results)
 		}

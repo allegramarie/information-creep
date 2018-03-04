@@ -40,20 +40,6 @@ const searchArticles = function(input, callback) {
 	})
 }
 
-app.get('/db', function(request, response){
-	pool.connect(process.env.DATABASE_URL, function(err, client, done) {
-		client.query('SELECT * FROM articles', function(err, result){
-			if (err) {
-		    console.error('connection error', err.stack)
-		  } else {
-		    console.log('connected to the db')
-		    response.render('pages/db', {results: result.rows} );
-		  }
-		})
-	})
-})
-
-
 module.exports = {
 	getAllArticles,
 	addArticle,

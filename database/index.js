@@ -2,7 +2,7 @@ var format = require('pg-format');
 const { Pool } = require('pg')
 
 const pool = new Pool({
-	host: 'localhost',
+	host: process.env.DATABASE_URL,
   user: '',
   password: '',
   database: 'articlesDB'
@@ -40,14 +40,19 @@ const searchArticles = function(input, callback) {
 	})
 }
 
-
-pool.connect((err) => {
-		  if (err) {
+app.get('/db', function(request, response){
+	pool.connect(process.env.DATABASE_URL, function(err, client, done) {
+		client.query('SELECT * FROM articles', function(err, result){
+			if (err) {
 		    console.error('connection error', err.stack)
 		  } else {
 		    console.log('connected to the db')
+		    response.render('pages/db', {results: result.rows} );
 		  }
 		})
+	})
+})
+
 
 module.exports = {
 	getAllArticles,

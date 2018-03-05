@@ -3,6 +3,7 @@ const { Pool } = require('pg')
 
 const pool = new Pool({
 	host: process.env.DATABASE_URL,
+	connectionString: process.env.DATABASE_URL,
   user: '',
   password: '',
   database: 'articlesDB'
@@ -40,11 +41,18 @@ const searchArticles = function(input, callback) {
 	})
 }
 
-pool.connect((err) => {
+pool.connect((err, client, done) => {
 		  if (err) {
-		    console.error('connection error', err.stack)
+		    return console.error('connection error', err.stack)
 		  } else {
-		    console.log('connected to the db')
+		    client.query('SELECT * FROM articles WHERE id = $1', [1], (err, res) => {
+			    done()
+			    if (err) {
+			      console.log(err.stack)
+			    } else {
+			      console.log(res.rows)
+			    }
+			  })
 		  }
 		})
 

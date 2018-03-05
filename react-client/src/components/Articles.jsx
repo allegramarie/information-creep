@@ -24,7 +24,7 @@ class Articles extends React.Component {
 					<h4>{article.title}</h4>
 					<div>{article.author}</div>
 					<div>{article.description}</div>
-					<div>{article.url}</div>
+					<div><a href={article.url}>{article.url}</a></div>
 				</div>
 			})}
 			</div>

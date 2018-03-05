@@ -37725,7 +37725,11 @@ var Articles = function (_React$Component) {
 						_react2.default.createElement(
 							'div',
 							null,
-							article.url
+							_react2.default.createElement(
+								'a',
+								{ href: article.url },
+								article.url
+							)
 						)
 					);
 				})

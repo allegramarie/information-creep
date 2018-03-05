@@ -37719,7 +37719,7 @@ var Articles = function (_React$Component) {
 						),
 						_react2.default.createElement(
 							'div',
-							null,
+							{ className: 'description' },
 							article.description
 						),
 						_react2.default.createElement(

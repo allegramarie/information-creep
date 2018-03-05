@@ -23,7 +23,7 @@ class Articles extends React.Component {
 				return <div className="article" key={i}>
 					<h4>{article.title}</h4>
 					<div>{article.author}</div>
-					<div>{article.description}</div>
+					<div className="description">{article.description}</div>
 					<div><a href={article.url}>{article.url}</a></div>
 				</div>
 			})}

@@ -42,3 +42,7 @@ button {
 .search {
 	width: 40%;
 }
+
+.description {
+	font-style: italic;
+}

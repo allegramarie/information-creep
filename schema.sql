@@ -31,3 +31,11 @@ name varchar(100) NOT NULL,
 UNIQUE (NAME)
 )
 
+-- setting up postgreSQL:
+-- start postgres: pg_ctl -D /usr/local/var/postgres start && brew services start postgresql
+-- create database: CREATE DATABASE databasename;
+-- to import schema, run psql -f schema.sql
+-- run 'psql articlesDB' to run psql with the database
+--run \list to see all databases
+-- stop postgres: pg_ctl -D /usr/local/var/postgres stop && brew services stop postgresql
+-- more commands: https://gist.github.com/Kartones/dd3ff5ec5ea238d4c546

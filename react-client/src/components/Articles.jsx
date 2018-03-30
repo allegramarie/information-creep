@@ -5,6 +5,7 @@ import $ from 'jquery';
 import { connect } from 'react-redux';
 import thunk from 'redux-thunk';
 import { getArticles } from '../actions/getArticles.js';
+import { pocket } from '../actions/pocket.js';
 
 class Articles extends React.Component {
 	constructor(props){
@@ -12,6 +13,7 @@ class Articles extends React.Component {
 	}
 	componentDidMount(){
 		this.props.dispatch(getArticles());
+		console.log('checking on pocket', this.props.pocketToken)
 	}
 	
 	render(){
@@ -25,6 +27,7 @@ class Articles extends React.Component {
 					<div>{article.author}</div>
 					<div className="description">{article.description}</div>
 					<div><a href={article.url}>{article.url}</a></div>
+					<div onClick={() => {this.props.dispatch(pocket())}}>Save</div>
 				</div>
 			})}
 			</div>
@@ -34,7 +37,8 @@ class Articles extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    articles: state.articles
+    articles: state.articles,
+    pocketToken: state.pocketToken
   };
 }
 

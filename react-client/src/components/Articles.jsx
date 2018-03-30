@@ -27,7 +27,7 @@ class Articles extends React.Component {
 					<div>{article.author}</div>
 					<div className="description">{article.description}</div>
 					<div><a href={article.url}>{article.url}</a></div>
-					
+					<div onClick={() => {this.props.dispatch(pocket())}}>Save</div>
 				</div>
 			})}
 			</div>

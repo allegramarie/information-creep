@@ -37560,6 +37560,8 @@ var Articles = function (_React$Component) {
 	}, {
 		key: 'render',
 		value: function render() {
+			var _this2 = this;
+
 			return _react2.default.createElement(
 				'div',
 				{ className: 'col-4' },
@@ -37596,6 +37598,13 @@ var Articles = function (_React$Component) {
 								{ href: article.url },
 								article.url
 							)
+						),
+						_react2.default.createElement(
+							'div',
+							{ onClick: function onClick() {
+									_this2.props.dispatch((0, _pocket.pocket)());
+								} },
+							'Save'
 						)
 					);
 				})

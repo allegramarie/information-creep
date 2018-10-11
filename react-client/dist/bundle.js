@@ -37691,15 +37691,9 @@ function confirmUser(userToken) {
 
 function pocket() {
 	return function (dispatch) {
-		var form = new _formData2.default();
-		form.append('consumer_key', '75397-d93f3752b12144d153b8da97');
-		form.append('redirect_uri', 'http://localhost:3000');
-		form.append('Content-Type', 'application/json');
-		form.append('Accept', 'application/json');
-		_axios2.default.post('https://cors-anywhere.herokuapp.com/https://getpocket.com/v3/oauth/request', form).then(function (response) {
-			var code = response.data.substr(5);
-			console.log("Response", response, response.data.substr(5));
-			dispatch(confirmUser(code));
+		_axios2.default.post('/pocket').then(function (response) {
+			console.log("Response", response);
+			// dispatch(confirmUser(response))
 		}).catch(function (error) {
 			console.log("Error response:", error);
 		});

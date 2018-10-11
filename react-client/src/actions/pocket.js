@@ -14,16 +14,10 @@ function confirmUser(userToken){
 
 export function pocket(){
 	return function(dispatch){
-		var form = new formData();
-		form.append('consumer_key', '75397-d93f3752b12144d153b8da97')
-		form.append('redirect_uri', 'http://localhost:3000')
-		form.append('Content-Type', 'application/json')
-		form.append('Accept', 'application/json')
-		axios.post('https://cors-anywhere.herokuapp.com/https://getpocket.com/v3/oauth/request', form)
+		axios.post('/pocket')
 		.then((response) => {
-			var code = response.data.substr(5);
-			console.log("Response", response, response.data.substr(5))
-			dispatch(confirmUser(code))
+			console.log("Response", response)
+			// dispatch(confirmUser(response))
 		})
 		.catch((error) => {
 			console.log("Error response:", error)
